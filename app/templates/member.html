@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% block title %}Member Dashboard{% endblock %}
+{% block content %}
+<h2>Member Dashboard</h2>
+
+<h4>Your Bookings</h4>
+<ul class="list-group mb-4">
+  {% for b in bookings %}
+    <li class="list-group-item d-flex justify-content-between align-items-center">
+      {{ b.availability.start_time }} &nbsp;→&nbsp; {{ b.availability.end_time }}
+      <form method="post" action="/member/api/bookings/delete" class="m-0">
+        <input type="hidden" name="booking_id" value="{{ b.id }}">
+        <button class="btn btn-sm btn-danger">Delete</button>
+      </form>
+    </li>
+  {% else %}
+    <li class="list-group-item">No bookings yet.</li>
+  {% endfor %}
+</ul>
+
+<h4>Available Slots</h4>
+<ul class="list-group mb-4">
+  {% for a in avail %}
+    <li class="list-group-item d-flex justify-content-between align-items-center">
+      {{ a.start_time }} &nbsp;→&nbsp; {{ a.end_time }}
+      <form method="post" action="/member/api/bookings/book" class="m-0">
+        <input type="hidden" name="availability_id" value="{{ a.id }}">
+        <button class="btn btn-sm btn-primary">Book</button>
+      </form>
+    </li>
+  {% else %}
+    <li class="list-group-item">No open slots.</li>
+  {% endfor %}
+</ul>
+
+{% if image_url %}
+  <h4>Facility</h4>
+  <img src="{{ url_for('static', filename=image_url) }}" class="img-fluid rounded shadow">
+{% endif %}
+{% endblock %}
