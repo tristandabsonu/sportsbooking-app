@@ -6,3 +6,4 @@ flask_bcrypt
 pymysql==1.0.3
 python-dotenv 
 boto3
+gunicorn
